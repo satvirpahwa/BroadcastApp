@@ -3021,12 +3021,9 @@ public class MyService extends Service {
 
         private List<ScanResult> wifiList;
 
-        // This method call when number of wifi connections changed
         public void onReceive(Context c, Intent intent) {
 
-            //     sb = new StringBuilder();
             wifiList = mainWifi.getScanResults();
-            //    sb.append("\n        Number Of Wifi connections :"+wifiList.size()+"\n\n");
 
             for (int i = 0; i < wifiList.size(); i++) {
                 Log.d(TAG, "Scanned wifi list is = " + wifiList.get(i).SSID);
@@ -3051,12 +3048,8 @@ public class MyService extends Service {
                     // do nothing
                 }
 
-                //    Log.d(TAG, "name: " + results.get(i).SSID);
-                //   Log.i("wificheckthread", "Service running = " + wifiname);
-
             }
 
-            //  mainText.setText(sb);
         }
 
     }

@@ -18,23 +18,17 @@ import java.lang.reflect.Method;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "HelloService";
+    private static final String TAG = "Broadcastapp";
 
     private static final int START_STICKY = 0;
     EditText et;
-    //  TextView tv1, tv2, tv3;
-    Button bt, bt2, bt3;
-    //   String st;
+    Button bt;
     String encryptedMessage = "";
     String complete_encryptedMessage = "";
     String decryptedMessage = "";
     int M1 = 2, M2 = 4, M3 = 9, M4 = 5;
     int N1 = 4, N2 = 6;
     static WifiManager wifi;
-    //  private WifiReceiver receiverWifi;
-
-
-    //   BroadcastReceiver receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,46 +36,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         et = (EditText) findViewById(R.id.editText);
-//        tv1 = (TextView) findViewById(R.id.textView);
-//        tv2 = (TextView) findViewById(R.id.textView2);
-//        tv3 = (TextView) findViewById(R.id.textView3);
         bt = (Button) findViewById(R.id.button);
-//        bt2 = (Button) findViewById(R.id.button1);
-//        bt3 = (Button) findViewById(R.id.button2);
+
         Intent intent = new Intent(this, MyService.class);
         startService(intent);
         wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-//        receiverWifi = new WifiReceiver();
 
-//        registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-//        wifi.startScan();
-        // Register Broadcast Receiver
-        //   if (receiver == null)
-//        receiver = new WiFiScanReceiver(this);
-//        registerReceiver(receiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-//        wifi.startScan();
         InputFilter filter = new InputFilter() {
 
             @Override
             public CharSequence filter(CharSequence source, int start, int end,
                                        Spanned dest, int dstart, int dend) {
-//                for (int i = start; i < end; i++) {
-//                    System.out.println("Type : "+Character.getType(source.charAt(i)));
-//
-//                    if (Character.isLetterOrDigit(source.charAt(i))) {
-//                        return "";
-//                    }
-//                }
-                 //   if(et.getText().toString().charAt(start) <32 || et.getText().toString().charAt(start) >126 ){
+
                 for (int i = start; i < end; i++) {
-                    if (source.charAt(i) <32 || source.charAt(i) >126) {
-                        Toast.makeText(getApplicationContext(), "Character "+ source.charAt(start) + " is not allowed in the message.", Toast.LENGTH_SHORT).show();
+                    if (source.charAt(i) < 32 || source.charAt(i) > 126) {
+                        Toast.makeText(getApplicationContext(), "Character " + source.charAt(start) + " is not allowed in the message.", Toast.LENGTH_SHORT).show();
                         return "";
                     }
                 }
 
-                //        return "";
-                //    }
 
                 return null;
             }
@@ -94,14 +67,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String st = "";
                 String message = "";
-//                st = et.getText().toString();
-//
-//                String message = messageToBeEncrypted(st);
-//                Log.i("wificheckthread", "Mainactivity service message = " + message);
-//                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                //  tv1.setText(message);
-                // String.valueOf(st.charAt(1));
-                //  tv2.setText(String.valueOf(st.charAt(1)));
+
                 if (wifi.isWifiEnabled()) {
                     Log.i("wificheckthread", "Mainactivity inside wifi enabled message");
                     st = et.getText().toString();
@@ -125,48 +91,17 @@ public class MainActivity extends AppCompatActivity {
                         if (setHotspotName(encryptMessage(message), getApplicationContext()) == true) {
                             turnOnOffHotspot(getApplicationContext(), true);
                             et.setText("");
-                            //   }
                         }
                     }
                 }
 
 
-//                turnOnOffHotspot(getApplicationContext(), true);
-//
-//                setHotspotName(encryptMessage(message), getApplicationContext());
-//                setHotspotName(complete_encryptedMessage, getApplicationContext());
             }
         });
 
-//        bt2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//              //  turnOnOffWifi(getApplicationContext(), true);
-//                   //  setWiFiStatus();
-//                decryptMessage(encryptedMessage);
-//            }
-//        });
+
     }
 
-
-//    private void setWiFiStatus() {
-//        // Setup WiFi
-//        wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-//
-//
-//        // Register Broadcast Receiver
-//        if (receiver == null)
-//            receiver = new WiFiScanReceiver(this);
-//        //   IntentFilter intentfilter = new IntentFilter();
-//        // intentfilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
-////        registerReceiver(receiver, intentfilter);
-//        registerReceiver(receiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-//        wifi.startScan();
-////        Intent in = new Intent();
-////        in.putExtra("decrypt", decryptedMessage);
-////        sendBroadcast(in);
-//        //  Log.d(TAG, "onCreate()");
-//    }
 
     /**
      * Turn on or off Hotspot.
@@ -206,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean setHotspotName(String newName, Context context) {
 
-        //  turnOnOffWifi(context, false);
 
         try {
             //  newName = "";
@@ -254,18 +188,6 @@ public class MainActivity extends AppCompatActivity {
         return msg;
     }
 
-//    String messageafterdecryption(String msg) {
-//        String message = "";
-//        //   for (int i = 0; i < msg.length(); i++) {
-//        String msg_1 = msg.substring(0, 14);
-//        String msg_2 = msg.substring(15);
-//        String msg_text = msg_1 + msg_2;
-//        message = msg_text.substring(0, msg_text.indexOf('^'));
-//
-//        //   }
-//        Toast.makeText(getApplicationContext(), "Display message =  " + message, Toast.LENGTH_SHORT).show();
-//        return message;
-//    }
 
     String encryptMessage(String hotspotName) {
         int index;
@@ -3161,31 +3083,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//    class WifiReceiver extends BroadcastReceiver {
-//
-//        private List<ScanResult> wifiList;
-//
-//        // This method call when number of wifi connections changed
-//        public void onReceive(Context c, Intent intent) {
-//
-//                     Log.d(TAG, "Inside WifiReceiver");
-//         //   sb = new StringBuilder();
-//            //      WifiManager mainWifi;
-//            wifiList = wifiManager.getScanResults();
-//            //    sb.append("\n        Number Of Wifi connections :"+wifiList.size()+"\n\n");
-//
-//            for (int i = 0; i < wifiList.size(); i++) {
-//                Log.d(TAG, "Scanned wifi list is = " + wifiList.get(i).SSID);
-////                sb.append(new Integer(i+1).toString() + ". ");
-////                sb.append((wifiList.get(i)).toString());
-////                sb.append("\n\n");
-//            }
-//
-//            //  mainText.setText(sb);
-//        }
 
-
-    //    }
     @Override
     public void onBackPressed() {
         if (wifi.isWifiEnabled() == false) {
